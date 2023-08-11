@@ -4,7 +4,6 @@ db.createCollection("products", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      title: "sucursal",
       required: [
         "ID",
         "name",
@@ -66,7 +65,6 @@ db.createCollection("inventories", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      title: "sucursal",
       required: [
         "ID",
         "ID_winery",
@@ -127,7 +125,6 @@ db.createCollection("histories", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      title: "sucursal",
       required: [
         "ID",
         "cantity",
@@ -149,19 +146,16 @@ db.createCollection("histories", {
         },
         ID_originWinery: {
           bsonType: "int",
-          minimun: 0,
           description:
             "ID_originWinery is required and it must be a Integer greater than 0",
         },
         ID_destinyWinery: {
           bsonType: "int",
-          minimum: 0,
           description:
             "ID_destinyWinery is required,it must be a Integer and minimun 0",
         },
         ID_inventory: {
           bsonType: "int",
-          minimum: 0,
           description:
             "ID_inventory is required,it must be a Integer and minimun 0",
         },
@@ -172,6 +166,139 @@ db.createCollection("histories", {
         updated_by: {
           bsonType: "int",
           description: "updated_by must be a integer",
+        },
+        created_at: {
+          bsonType: "date",
+          description: "created_by is required and it must be a date",
+        },
+        updated_at: {
+          bsonType: "date",
+          description: "updated_at must be a date",
+        },
+        deleted_at: {
+          bsonType: "date",
+          description: "deleted_at must be a date",
+        },
+      },
+    },
+  },
+});
+
+//WINERIES COLECTIONS
+use("bodegasDB");
+db.createCollection("wineries", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: [
+        "ID",
+        "name",
+        "ID_responsable",
+        "state",
+        "created_by",
+        "created_at",
+      ],
+      properties: {
+        ID: {
+          bsonType: "int",
+          minimum: 1,
+          description: "ID is required, it must a string and be greater than 0",
+        },
+        name: {
+          bsonType: "string",
+          description: "name is required and it must be a string",
+        },
+        ID_responsable: {
+          bsonType: "int",
+          description:
+            "ID_responsable is required and it must be a Integer greater than 0",
+        },
+        state: {
+          bsonType: "string",
+          description:
+            "state is required,it must be a string betweend 'activo' and 'inactivo'",
+        },
+        created_by: {
+          bsonType: "int",
+          description: "created_by is required and it must be a integer",
+        },
+        updated_by: {
+          bsonType: "int",
+          description: "updated_by must be a integer",
+        },
+        created_at: {
+          bsonType: "date",
+          description: "created_by is required and it must be a date",
+        },
+        updated_at: {
+          bsonType: "date",
+          description: "updated_at must be a date",
+        },
+        deleted_at: {
+          bsonType: "date",
+          description: "deleted_at must be a date",
+        },
+      },
+    },
+  },
+});
+
+//WINERIES COLECTIONS
+use("bodegasDB");
+db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: [
+        "ID",
+        "name",
+        "email",
+        "email_verified_at",
+        "state",
+        "created_by",
+        "password",
+        "created_at"
+      ],
+      properties: {
+        ID: {
+          bsonType: "int",
+          minimum: 1,
+          description: "ID is required, it must a string and be greater than 0",
+        },
+        name: {
+          bsonType: "string",
+          description: "name is required and it must be a string",
+        },
+        email: {
+          bsonType: "string",
+          pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+          description: "email is required and it must be a string valid email address",
+        },
+        email_verified_at: {
+          bsonType: "date",
+          description:
+            "email_verified_at is required and it must be a date format",
+        },
+        state: {
+          bsonType: "string",
+          description:
+            "state is required,it must be a string betweend 'activo' and 'inactivo'",
+        },
+        created_by: {
+          bsonType: "int",
+          description: "created_by is required and it must be a integer",
+        },
+        updated_by: {
+          bsonType: "int",
+          description: "updated_by must be a integer",
+        },
+        foto: {
+          bsonType: "string",
+          description: "foto must be a string",
+        },
+        password: {
+          bsonType: "string",
+          description: "password must be a string",
         },
         created_at: {
           bsonType: "date",
@@ -208,4 +335,37 @@ db.inventories.insertOne({
   cantity: 1,
   created_by: 1005184201,
   created_at: new Date("2023-08-11T08:31:00Z"),
+});
+
+use("bodegasDB");
+db.histories.insertOne({
+  ID: 1,
+  cantity: 10,
+  ID_originWinery: 1,
+  ID_destinyWinery: 2,
+  ID_inventory: 1,
+  created_by: 1005184201,
+  created_at: new Date("2023-10-10T08:15:26Z"),
+});
+
+use("bodegasDB");
+db.wineries.insertOne({
+  ID: 1,
+  name: "Bodega 1",
+  ID_responsable: 1005184201,
+  state: "activo",
+  created_by: 1005184201,
+  created_at: new Date("2023-10-10T08:15:26Z"),
+});
+
+use("bodegasDB");
+db.users.insertOne({
+  ID: 1,
+  name: "Jean Angarita",
+  email: "Jean123@gmail.com",
+  email_verified_at: new Date("2023-10-10T08:15:26Z"),
+  password: "JEAN123",
+  state: "activo",
+  created_by: 1005184201,
+  created_at: new Date("2023-10-10T08:15:26Z"),
 });
