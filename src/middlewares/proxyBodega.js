@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { plainToInstance } from "class-transformer";
+import { classToPlain, plainToInstance } from "class-transformer";
 import { Bodega } from "../storage/bodegaDTO.js";
 import { validate } from "class-validator";
 
@@ -17,4 +17,18 @@ const proxyBodega = async (req, res, next) => {
   }
 };
 
-export { proxyBodega };
+const bodegaVerify = (req, res, next) => {
+  if (!req.rateLimit) return;
+  let { payload } = req.data;
+  const { iat, exp, ...newPayload } = payload;
+  payload = newPayload;
+  let Clone = JSON.stringify(
+    classToPlain(plainToInstance(Bodega, {}, { ignoreDecorators: true }))
+  );
+  let Verify = Clone === JSON.stringify(payload);
+  !Verify
+    ? res.status(406).send({ status: 406, message: "No estás autorizado" })
+    : next();
+};
+
+export { proxyBodega, bodegaVerify };
