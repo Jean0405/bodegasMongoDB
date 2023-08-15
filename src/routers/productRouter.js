@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-const PRODUCT = Router();
+const PRODUCTOS = Router();
 
-PRODUCT.get("/", async (req, res) => {
+PRODUCTOS.get("/", async (req, res) => {
   res.send("products done!");
 });
 
-export default PRODUCT;
+export default PRODUCTOS;
