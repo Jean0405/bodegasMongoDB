@@ -7,6 +7,7 @@ import PRODUCTOS from "./routers/productRouter.js";
 dotenv.config();
 const SERVER = JSON.parse(process.env.CONFIG_SERVER);
 const APP = express();
+APP.use(express.json());
 
 APP.use("/bodegas", BODEGAS);
 APP.use("/productos", PRODUCTOS);
