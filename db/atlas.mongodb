@@ -257,7 +257,7 @@ db.createCollection("users", {
         "state",
         "created_by",
         "password",
-        "created_at"
+        "created_at",
       ],
       properties: {
         ID: {
@@ -272,7 +272,8 @@ db.createCollection("users", {
         email: {
           bsonType: "string",
           pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-          description: "email is required and it must be a string valid email address",
+          description:
+            "email is required and it must be a string valid email address",
         },
         email_verified_at: {
           bsonType: "date",
