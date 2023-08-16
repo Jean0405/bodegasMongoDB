@@ -5,6 +5,7 @@ import { classToPlain, plainToInstance } from "class-transformer";
 import { SignJWT, jwtVerify } from "jose";
 import { Bodega } from "../storage/bodegaDTO.js";
 import { Producto } from "../storage/productoDTO.js";
+import { Inventario } from "../storage/inventarioDTO.js";
 
 dotenv.config();
 const generateToken = Router();
@@ -14,6 +15,7 @@ const instanceDTO = (className) => {
   const classMap = {
     bodega: Bodega,
     producto: Producto,
+    inventario: Inventario,
   };
 
   const Class = classMap[className];
