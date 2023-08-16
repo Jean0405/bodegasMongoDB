@@ -1,22 +1,24 @@
-//PRODUCTS COLECTION
+//COUNTER AUTOINCREMENT
+use("bodegasDB");
+db.createCollection("counters");
+db.counters.insertMany([
+  { ID: "wineriesId", sequence_value: 0 },
+  { ID: "productsId", sequence_value: 0 },
+  { ID: "inventoriesId", sequence_value: 0 },
+  { ID: "historiesId", sequence_value: 0 },
+  { ID: "usersId", sequence_value: 0 },
+]);
+
 use("bodegasDB");
 db.createCollection("products", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: [
-        "ID",
-        "name",
-        "description",
-        "state",
-        "created_by",
-        "created_at",
-      ],
+      required: ["name", "description", "state", "created_by", "created_at"],
       properties: {
         ID: {
           bsonType: "int",
-          minimum: 1,
-          description: "ID is required, it must a string and be greater than 0",
+          description: "ID must be a int",
         },
         name: {
           bsonType: "string",
@@ -43,15 +45,15 @@ db.createCollection("products", {
           description: "updated_by must be a integer",
         },
         created_at: {
-          bsonType: "date",
-          description: "created_by is required and it must be a date",
+          bsonType: "string",
+          description: "created_at is required and it must be a date",
         },
         updated_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "updated_at must be a date",
         },
         deleted_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "deleted_at must be a date",
         },
       },
@@ -66,7 +68,6 @@ db.createCollection("inventories", {
     $jsonSchema: {
       bsonType: "object",
       required: [
-        "ID",
         "ID_winery",
         "ID_product",
         "cantity",
@@ -76,8 +77,7 @@ db.createCollection("inventories", {
       properties: {
         ID: {
           bsonType: "int",
-          minimum: 1,
-          description: "ID is required, it must a string and be greater than 0",
+          description: "ID must be a int",
         },
         ID_winery: {
           bsonType: "int",
@@ -103,15 +103,15 @@ db.createCollection("inventories", {
           description: "updated_by must be a integer",
         },
         created_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "created_by is required and it must be a date",
         },
         updated_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "updated_at must be a date",
         },
         deleted_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "deleted_at must be a date",
         },
       },
@@ -126,7 +126,6 @@ db.createCollection("histories", {
     $jsonSchema: {
       bsonType: "object",
       required: [
-        "ID",
         "cantity",
         "ID_originWinery",
         "ID_destinyWinery",
@@ -137,8 +136,7 @@ db.createCollection("histories", {
       properties: {
         ID: {
           bsonType: "int",
-          minimum: 1,
-          description: "ID is required, it must a string and be greater than 0",
+          description: "ID must be a int",
         },
         cantity: {
           bsonType: "int",
@@ -168,15 +166,15 @@ db.createCollection("histories", {
           description: "updated_by must be a integer",
         },
         created_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "created_at is required and it must be a date",
         },
         updated_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "updated_at must be a date",
         },
         deleted_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "deleted_at must be a date",
         },
       },
@@ -190,19 +188,11 @@ db.createCollection("wineries", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: [
-        "ID",
-        "name",
-        "ID_responsable",
-        "state",
-        "created_by",
-        "created_at",
-      ],
+      required: ["name", "ID_responsable", "state", "created_by", "created_at"],
       properties: {
         ID: {
           bsonType: "int",
-          minimum: 1,
-          description: "ID is required, it must a string and be greater than 0",
+          description: "ID must be a int",
         },
         name: {
           bsonType: "string",
@@ -250,7 +240,6 @@ db.createCollection("users", {
     $jsonSchema: {
       bsonType: "object",
       required: [
-        "ID",
         "name",
         "email",
         "email_verified_at",
@@ -262,8 +251,7 @@ db.createCollection("users", {
       properties: {
         ID: {
           bsonType: "int",
-          minimum: 1,
-          description: "ID is required, it must a string and be greater than 0",
+          description: "ID must be a int",
         },
         name: {
           bsonType: "string",
@@ -276,9 +264,8 @@ db.createCollection("users", {
             "email is required and it must be a string valid email address",
         },
         email_verified_at: {
-          bsonType: "date",
-          description:
-            "email_verified_at is required and it must be a date format",
+          bsonType: "string",
+          description: "email_verified_at is required and it must be a date",
         },
         state: {
           bsonType: "string",
@@ -302,15 +289,15 @@ db.createCollection("users", {
           description: "password must be a string",
         },
         created_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "created_by is required and it must be a date",
         },
         updated_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "updated_at must be a date",
         },
         deleted_at: {
-          bsonType: "date",
+          bsonType: "string",
           description: "deleted_at must be a date",
         },
       },
