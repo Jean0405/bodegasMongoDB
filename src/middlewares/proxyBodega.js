@@ -11,7 +11,7 @@ const proxyBodega = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(500).send({
-      message: "ERROR DE RECEPCIÓN DE DATA 'undefined'",
+      message: "ERROR DE RECEPCIÓN DE DATA ON DTO",
       error: error.message,
     });
   }
