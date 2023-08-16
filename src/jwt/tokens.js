@@ -1,8 +1,10 @@
 import "reflect-metadata";
+import dotenv from "dotenv";
 import { Router } from "express";
 import { classToPlain, plainToInstance } from "class-transformer";
 import { SignJWT, jwtVerify } from "jose";
-import dotenv from "dotenv";
+import { Bodega } from "../storage/bodegaDTO.js";
+import { Producto } from "../storage/productoDTO.js";
 
 dotenv.config();
 const generateToken = Router();
@@ -20,9 +22,9 @@ const instanceDTO = (className) => {
     : undefined;
 };
 
-generateToken.use(":/collection", async (req, res) => {
+generateToken.use("/:collection", async (req, res) => {
   try {
-    const collectionName = req.params.collections;
+    const collectionName = req.params.collection;
     const instance = instanceDTO(collectionName);
 
     if (!instance)
@@ -30,7 +32,6 @@ generateToken.use(":/collection", async (req, res) => {
         status: 404,
         message: "ERROR: La colección no ha sido encontrada",
       });
-
     const encoder = new TextEncoder();
     const jwtConstructor = new SignJWT(
       Object.assign({}, classToPlain(instance))
@@ -44,7 +45,7 @@ generateToken.use(":/collection", async (req, res) => {
       .setIssuedAt()
       .setExpirationTime("1h")
       .sign(encoder.encode(process.env.PRIVATE_KEY));
-    res.status(201).send({ status: 201, message: req.auth });
+    res.status(201).send({ status: 201, message: req.data });
   } catch (error) {
     res
       .status(404)
@@ -55,17 +56,21 @@ generateToken.use(":/collection", async (req, res) => {
 verifyToken.use("/", async (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization)
-    return res.status(400).send({ status: 400, message: "Token no asignado" });
+    return res
+      .status(400)
+      .send({ status: 400, message: "Token no asignado en el header" });
   try {
     const encoder = new TextEncoder();
-    res.data = await jwtVerify(
+    const jwtData = await jwtVerify(
       authorization,
       encoder.encode(process.env.PRIVATE_KEY)
     );
     req.data = jwtData;
     next();
   } catch (error) {
-    res.status(498).send({ status: 498, message: "Token valido o expirado" });
+    res
+      .status(498)
+      .send({ status: 498, message: "ERROR: Token no valido o expirado" });
   }
 });
 
