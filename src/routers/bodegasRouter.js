@@ -36,7 +36,6 @@ BODEGAS.get("/", bodegaVerify, async (req, res) => {
  */
 BODEGAS.post("/", bodegaVerify, proxyBodega, async (req, res) => {
   // {
-  //   "winery_id": 2,
   //   "winery_name": "Bodega Bucaros 22",
   //   "responsible_id": 1,
   //   "winery_state": "activo",
