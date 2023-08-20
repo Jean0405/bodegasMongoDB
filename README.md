@@ -8,7 +8,6 @@ En este proyecto Backend se crean endpoints con los cuales podemos realizar cons
 
 ## Installation
 
-
 1. Clona este repositorio en tu computadora, usa el siguiente comando:
 
 ```bash
@@ -22,6 +21,7 @@ git clone https://github.com/Jean0405/mongoBodegas.git
 ```bash
   npm install
 ```
+
 4. ejecuta el archivo db/atlas.mongodb
 
 5. ejecuta npm run dev
@@ -84,6 +84,19 @@ Mediante el uso de los siguientes ENDPOINTS podrás realizar peticiones al servi
 **POST:** http://127.20.24.1:3600/inventarios
 
 **GET:** http://127.20.24.1:3600/inventarios
+
+#### ❗ El siguiente endpoint permite trasladar inventario de un producto de una bodega a otra.❗
+
+```json
+{
+  "product_id": 1,
+  "cantity": 20,
+  "wineryOrigin_id": 1,
+  "wineryDestiny_id": 2
+}
+```
+
+**PUT:** http://127.20.24.1:3600/inventarios/trasladar
 
 ### 🔴 ENDPOINT PRODUCTOS
 
