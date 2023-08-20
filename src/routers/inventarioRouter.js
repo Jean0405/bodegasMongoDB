@@ -62,4 +62,54 @@ INVENTARIO.post("/", inventarioVerify, proxyInventario, async (req, res) => {
   }
 });
 
+/**
+ * ? Put para trasladar cierta cantidad de un producto de una bodega a otra
+ * * http://127.25.25.27:3300/inventarios/trasladar
+ */
+INVENTARIO.put("/trasladar", async (req, res) => {
+  // {
+  //   "product_id":1,
+  //   "cantity":20,
+  //   "wineryOrigin_id":1,
+  //   "wineryDestiny_id":2
+  // }
+
+  const { product_id, cantity, wineryOrigin_id, wineryDestiny_id } = req.body;
+  console.log(wineryOrigin_id);
+  try {
+    let db = await connDB();
+    let coleccion = db.collection("inventories");
+
+    let data = await coleccion
+      .find({ ID_winery: wineryOrigin_id, ID_product: product_id })
+      .toArray();
+
+    if (cantity > data[0].cantity) {
+      res.send("LA CANTIDAD QUE DESEAS TRANSFERIR NO ESTÁ DISPONIBLE");
+    } else {
+      await coleccion.updateOne(
+        {
+          ID_winery: wineryDestiny_id,
+          ID_product: product_id,
+        },
+        {
+          $inc: { cantity: cantity },
+        }
+      );
+      await coleccion.updateOne(
+        {
+          ID_winery: wineryOrigin_id,
+          ID_product: product_id,
+        },
+        {
+          $inc: { cantity: -cantity },
+        }
+      );
+    }
+    res.send("CANTIDAD TRASLADADA CORRECTAMENTE");
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
 export default INVENTARIO;
